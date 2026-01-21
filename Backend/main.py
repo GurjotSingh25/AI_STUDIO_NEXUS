@@ -16,10 +16,10 @@ from services.api_usage_tracker import APIUsageTracker, APIUsageMiddleware
 load_dotenv()
 
 # Get URL configuration with fallback
-url = os.getenv("URL")
-parsed_url = urlparse(url)
-host = parsed_url.hostname 
-port = parsed_url.port
+# url = os.getenv("URL")
+# parsed_url = urlparse(url)
+# host = parsed_url.hostname 
+# port = parsed_url.port
 
 
 app = FastAPI(
@@ -63,7 +63,7 @@ app.add_middleware(
         "http://127.0.0.1:5173",
         "http://localhost:5177",
         "http://127.0.0.1:5177",
-        "https://nexus-ai-v2-wine.vercel.app"
+        "https://ai-studio-nexus.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
