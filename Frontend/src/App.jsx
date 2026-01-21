@@ -5,14 +5,16 @@ import Header from "./components/header";
 import SettingsPanel from "./components/settingsPanel";
 import { ChatContext } from "../context/ChatContext";
 import Chat from "./components/chat";
-import api, { checkAuth } from "./services/tokenService";  // Changed ../ to ./
+// import api, { checkAuth } from "./services/tokenService"; 
+import api from "./services/tokenService";
+
 
 
 
 const NEXUSAiStudio = () => {
   // Authentication state
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const navigate = useNavigate();
 
   // Get context values
@@ -65,29 +67,29 @@ const NEXUSAiStudio = () => {
   const [currentSessionId, setCurrentSessionId] = useState(null);
 
   // Check authentication on mount
-  useEffect(() => {
-    const verifyAuth = async () => {
-      try {
-        console.log("🔍 Checking authentication...");
-        const userData = await checkAuth();
+  // useEffect(() => {
+  //   const verifyAuth = async () => {
+  //     try {
+  //       console.log("🔍 Checking authentication...");
+  //       const userData = await checkAuth();
         
-        if (userData) {
-          console.log("✅ User authenticated:",);
-          setIsAuthenticated(true);
-        } else {
-          console.log("❌ Not authenticated, redirecting to login");
-          navigate('/login');
-        }
-      } catch (error) {
-        console.error("❌ Authentication check failed:", error);
-        navigate('/login');
-      } finally {
-        setIsCheckingAuth(false);
-      }
-    };
+  //       if (userData) {
+  //         console.log("✅ User authenticated:",);
+  //         setIsAuthenticated(true);
+  //       } else {
+  //         console.log("❌ Not authenticated, redirecting to login");
+  //         navigate('/login');
+  //       }
+  //     } catch (error) {
+  //       console.error("❌ Authentication check failed:", error);
+  //       navigate('/login');
+  //     } finally {
+  //       setIsCheckingAuth(false);
+  //     }
+  //   };
 
-    verifyAuth();
-  }, [navigate]);
+  //   verifyAuth();
+  // }, [navigate]);
 
   // Cleanup function to delete session data
   const cleanupSession = async (sessionId) => {
@@ -102,9 +104,11 @@ const NEXUSAiStudio = () => {
       setCurrentSessionId(null);
     } catch (error) {
       console.error("❌ Error cleaning up session:", error);
-      if (error.response?.status === 401) {
-        navigate('/login');
-      }
+      addMessage("⚠️ Backend unavailable (demo mode).", "ai");
+
+      // if (error.response?.status === 401) {
+      //   navigate('/login');
+      // }
     }
   };
 
@@ -456,21 +460,21 @@ const NEXUSAiStudio = () => {
   }, [mediaRecorder, isRecording]);
 
   // Show loading screen while checking authentication
-  if (isCheckingAuth) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-black-900 to-slate-950 text-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <div className="text-xl">🔐 Verifying authentication...</div>
-        </div>
-      </div>
-    );
-  }
+  // if (isCheckingAuth) {
+  //   return (
+  //     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-black-900 to-slate-950 text-white flex items-center justify-center">
+  //       <div className="text-center">
+  //         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+  //         <div className="text-xl">🔐 Verifying authentication...</div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   // Only render the main component if authenticated
-  if (!isAuthenticated) {
-    return null;
-  }
+  // if (!isAuthenticated) {
+  //   return null;
+  // }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-black-900 to-slate-950 text-white overflow-hidden">

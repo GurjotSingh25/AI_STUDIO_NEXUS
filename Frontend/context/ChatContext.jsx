@@ -5,6 +5,8 @@ import api from "../src/services/tokenService";
 const ChatContext = createContext();
 export { ChatContext };
 
+const DEMO_MODE = true;
+
 export const ChatProvider = ({ children }) => {
   const [chatHistory, setChatHistory] = useState([]);
   const [model, setModel] = useState("gpt-4o");
@@ -94,6 +96,10 @@ export const ChatProvider = ({ children }) => {
   };
 
   const handleTextToSpeech = async (text, messageIndex) => {
+    if (DEMO_MODE) {
+  alert("TTS disabled in demo mode (backend offline).");
+  return;
+}
     try {
       const response = await api.post('/api/tts', {  // ✅ Added /api
         text: text,
@@ -214,6 +220,14 @@ export const ChatProvider = ({ children }) => {
   };
 
   const handleSendMessage = async (message, documentMode = false) => {
+
+    if (DEMO_MODE) {
+    addMessage(
+      "🚀 Demo mode enabled. Backend is currently offline.",
+      "ai"
+    );
+    return;
+  }
     try {
       const response = await api.post('/api/chat', {  // ✅ Added /api (THIS WAS THE MAIN 404!)
         model,
